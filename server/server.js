@@ -23,21 +23,27 @@ io.on('connection', (socket) => {
   // socket.on('createEmail', (email) => {
   //   console.log('createEmail: ', email);
   // });
-
-  socket.emit('newMessage', {
-    from: 'Mesut',
-    text: 'this is good',
-    createdAt: 234
-  });
+  // 
+  // socket.emit('newMessage', {
+  //   from: 'Mesut',
+  //   text: 'this is good',
+  //   createdAt: 234
+  // });
 
   socket.on('createMessage', (message) => {
     console.log('createMessage: ', message);
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    })
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected from server');
-  })
-})
+  });
+
+});
 
 server.listen(port, () => {
   console.log(`Server is up on port ${port}`);
